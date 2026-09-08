@@ -1,0 +1,14 @@
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/PareaApplication.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/config/ApplicationConfig.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/config/GlobalExceptionHandler.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/config/SecurityConfig.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/controllers/AuthController.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/controllers/dto/AuthResponse.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/controllers/dto/LoginRequest.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/controllers/dto/RegisterRequest.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/entities/Rol.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/entities/Usuario.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/repositories/UsuarioRepository.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/security/JwtAuthenticationFilter.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/security/JwtService.java
+/home/gaston/Escritorio/PareaApp/backend/src/main/java/com/parea/services/AuthService.java
