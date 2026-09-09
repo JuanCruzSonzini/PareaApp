@@ -27,6 +27,4 @@ public class RegisterRequest {
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
 
-    @NotNull(message = "El rol es obligatorio (ASISTENTE u ORGANIZADOR)")
-    private Rol rol;
 }
