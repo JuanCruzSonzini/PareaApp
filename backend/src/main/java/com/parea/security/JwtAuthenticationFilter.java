@@ -33,8 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -42,19 +40,45 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
-            jwt = authHeader.substring(7);
-            userEmail = jwtService.extractUsername(jwt);
+            final String jwt = authHeader.substring(7);
+            final String userEmail = jwtService.extractUsername(jwt);
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            System.out.println("userEmail: " + userEmail);
+
+            if (userEmail != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+
                 if (jwtService.isTokenValid(jwt, userDetails)) {
-                    // ... setear el contexto
+
+                    System.out.println("JWT válido");
+                    System.out.println("Authorities: " + userDetails.getAuthorities());
+
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request));
+
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authToken);
+                    System.out.println(
+                            "Authentication: " +
+                                    SecurityContextHolder.getContext().getAuthentication());
                 }
             }
+
         } catch (JwtException | UsernameNotFoundException e) {
-            // token inválido/expirado o usuario ya no existe → seguimos sin autenticar
+
+            System.out.println("JWT inválido: " + e.getMessage());
+
             SecurityContextHolder.clearContext();
         }
+
         filterChain.doFilter(request, response);
     }
 }
