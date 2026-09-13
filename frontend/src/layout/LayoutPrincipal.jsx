@@ -1,15 +1,15 @@
-import {Outlet} from "react-dom";
+import {Outlet} from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer"
 
 export default function LayoutPrincipal(){
     return(
         <div className="app-shell bg-blanco">
-            <Header/>
+            <Header />
             <main className="container">
-                <Outlet/>
+                <Outlet />
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );    
 }

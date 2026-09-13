@@ -50,8 +50,13 @@
   }
 }
 
+html{
+  font-size: 62.5%; /*Con esta línea se logra que 1rem = 10px y es más fácil el desarrollo*/ 
+}
+
 body {
   margin: 0;
+  font-size: 1.6rem /*Debido a que 1rem=10px hay que reacomodar las medidas de texto para que no quede muy chiquito*/
 }
 
 #root {
