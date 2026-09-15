@@ -12,8 +12,8 @@ export default function Login(){
     // }
     
     return(
-        <section>
-            <form>
+        <section className="login">
+            <form className="login-form">
                 <h1 className="text-center display-6">Inicio de sesion</h1>
                 <div className="mb-3">
                     <label for="emailInput" className="form-label">Correo electronico</label>
