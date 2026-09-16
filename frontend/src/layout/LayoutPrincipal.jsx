@@ -6,7 +6,7 @@ export default function LayoutPrincipal(){
     return(
         <div className="app-shell">
             <Header />
-            <main className="container app-contenedor">
+            <main className="container-fluid app-contenedor">
                 <Outlet />
             </main>
             <Footer />
