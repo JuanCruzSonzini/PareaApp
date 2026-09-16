@@ -46,7 +46,7 @@ public class EventoService {
                 .verificado(false)
                 .estadoVerificacion("PENDIENTE")
                 .fhAlta(LocalDateTime.now())
-                .creador(usuario)
+                .usuario(creador)
                 .build();
 
         Evento guardado = eventoRepository.save(evento);
