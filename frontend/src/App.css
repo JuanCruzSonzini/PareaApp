@@ -42,3 +42,9 @@
   -moz-box-shadow: 6px 4px 11px -4px rgba(0,0,0,0.76);
   box-shadow: var(--shadow-box);
 }
+
+  @media (max-width: 768px) {
+        h1{ 
+          font-size: 20rem;
+        }
+    }

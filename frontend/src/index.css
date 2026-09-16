@@ -4,8 +4,10 @@
     --blanco: #ffffff;
     --negro: #000000;
     --gris: #505050;
-    --color-primario: #4b2bbf;
-    --color-secundario: #7d5cff;
+    --color-background: #D3E4FE;
+
+    --color-primario: #7C3AED;
+    --color-secundario: #8B5CF6;
     --color-terciario: #bba7ff;
     --color-info: #74c6ff;
     
@@ -17,26 +19,27 @@
     --color-success-bg: rgba(5, 150, 105, 0.1);
     
     --fuente-principal:  'Poppins', sans-serif;
-
+    
     --shadow-box: 6px 4px 11px -4px rgba(0,0,0,0.76);
     
     font: 1.2rem var(--fuente-principal);
     letter-spacing: 0.02rem;  
   }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    
-    --color-error: #fb7185;
-    --color-error-bg: rgba(251, 113, 133, 0.15);
-    --color-advertencia: #fbbf24;
-    --color-advertencia-bg: rgba(251, 191, 36, 0.15);
-    --color-success: #34d399;
-    --color-success-bg: rgba(52, 211, 153, 0.15);
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: #23005C;
+      --color-background: #213145;
+      --color-primario: #4b2bbf;
+      --color-secundario: #5516BE;
+      --color-terciario: #A078FF;
+      
+      --color-error: #fb7185;
+      --color-error-bg: rgba(251, 113, 133, 0.15);
+      --color-advertencia: #fbbf24;
+      --color-advertencia-bg: rgba(251, 191, 36, 0.15);
+      --color-success: #34d399;
+      --color-success-bg: rgba(52, 211, 153, 0.15);
   }
 }
 
@@ -62,6 +65,7 @@ body {
 }
 
 .app-shell{
+  background-color: var(--color-background);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
