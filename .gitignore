@@ -15,3 +15,5 @@
 /.idea
 .env
 application.properties
+
+target/
