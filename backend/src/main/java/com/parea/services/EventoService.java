@@ -8,6 +8,11 @@ import com.parea.repositories.EventoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.parea.entities.Categoria;
+import com.parea.repositories.EventoSpecifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
 
@@ -48,4 +53,29 @@ public class EventoService {
 
         return EventoResponse.from(guardado);
     }
-}
+
+    public Page<EventoResponse> buscarEventos(
+        String titulo,
+        Categoria categoria,
+        String modalidad,
+        Boolean esGratuito,
+        Boolean requiereInscripcion,
+        LocalDateTime desde,
+        LocalDateTime hasta,
+        Pageable pageable
+    ) {
+    Specification<Evento> spec = Specification
+            .where(EventoSpecifications.tituloContiene(titulo))
+            .and(EventoSpecifications.categoriaEs(categoria))
+            .and(EventoSpecifications.modalidadEs(modalidad))
+            .and(EventoSpecifications.esGratuitoEs(esGratuito))
+            .and(EventoSpecifications.requiereInscripcionEs(requiereInscripcion))
+            .and(EventoSpecifications.desde(desde))
+            .and(EventoSpecifications.hasta(hasta));
+
+    return eventoRepository.findAll(spec, pageable)
+            .map(EventoResponse::from);
+    
+    }
+
+}   

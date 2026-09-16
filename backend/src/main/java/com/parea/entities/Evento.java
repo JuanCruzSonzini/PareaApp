@@ -61,6 +61,10 @@ public class Evento {
 
     private LocalDateTime fechaVerificacion;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Categoria categoria;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
