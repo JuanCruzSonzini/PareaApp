@@ -3,6 +3,7 @@ package com.parea.services;
 import com.parea.controllers.dto.CrearEventoRequest;
 import com.parea.controllers.dto.EventoResponse;
 import com.parea.entities.Evento;
+import com.parea.entities.Modalidad;
 import com.parea.entities.Usuario;
 import com.parea.repositories.EventoRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class EventoService {
                 .titulo(request.getTitulo())
                 .descripcion(request.getDescripcion())
                 .modalidad(request.getModalidad())
+                .categoria(request.getCategoria())
                 .fhInicio(request.getFhInicio())
                 .fhFin(request.getFhFin())
                 .esGratuito(request.getEsGratuito())
@@ -55,27 +57,32 @@ public class EventoService {
     }
 
     public Page<EventoResponse> buscarEventos(
-        String titulo,
-        Categoria categoria,
-        String modalidad,
-        Boolean esGratuito,
-        Boolean requiereInscripcion,
-        LocalDateTime desde,
-        LocalDateTime hasta,
-        Pageable pageable
-    ) {
-    Specification<Evento> spec = Specification
-            .where(EventoSpecifications.tituloContiene(titulo))
-            .and(EventoSpecifications.categoriaEs(categoria))
-            .and(EventoSpecifications.modalidadEs(modalidad))
-            .and(EventoSpecifications.esGratuitoEs(esGratuito))
-            .and(EventoSpecifications.requiereInscripcionEs(requiereInscripcion))
-            .and(EventoSpecifications.desde(desde))
-            .and(EventoSpecifications.hasta(hasta));
 
-    return eventoRepository.findAll(spec, pageable)
-            .map(EventoResponse::from);
-    
+            String texto,
+            Categoria categoria,
+            Modalidad modalidad,
+            Boolean esGratuito,
+            Boolean requiereInscripcion,
+            LocalDateTime desde,
+            LocalDateTime hasta,
+            Pageable pageable
+
+    ) {
+
+
+        Specification<Evento> spec = Specification
+                .where(EventoSpecifications.activo())
+                .and(EventoSpecifications.textoContiene(texto))
+                .and(EventoSpecifications.categoriaEs(categoria))
+                .and(EventoSpecifications.modalidadEs(modalidad))
+                .and(EventoSpecifications.esGratuitoEs(esGratuito))
+                .and(EventoSpecifications.requiereInscripcionEs(requiereInscripcion))
+                .and(EventoSpecifications.desde(desde))
+                .and(EventoSpecifications.hasta(hasta));
+
+
+        return eventoRepository.findAll(spec, pageable)
+                .map(EventoResponse::from);
     }
 
 }   

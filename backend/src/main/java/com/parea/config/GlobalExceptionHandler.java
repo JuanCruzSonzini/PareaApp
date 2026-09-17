@@ -8,6 +8,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -42,6 +44,72 @@ public class GlobalExceptionHandler {
         body.put("message", "Credenciales inválidas: email o contraseña incorrectos");
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+    }
+
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, Object>> handleTypeMismatch(
+            MethodArgumentTypeMismatchException ex
+    ) {
+
+        Map<String, Object> body = new HashMap<>();
+
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Bad Request");
+
+
+        if (ex.getRequiredType() != null
+                && ex.getRequiredType().isEnum()) {
+
+            Object[] valoresPermitidos =
+                    ex.getRequiredType().getEnumConstants();
+
+            body.put(
+                    "message",
+                    "Valor inválido para '" + ex.getName()
+                            + "'. Valores permitidos: "
+                            + String.join(", ",
+                            java.util.Arrays.stream(valoresPermitidos)
+                                    .map(Object::toString)
+                                    .toList()
+                    )
+            );
+
+        } else {
+
+            body.put(
+                    "message",
+                    "El valor enviado para '" + ex.getName()
+                            + "' no es válido."
+            );
+        }
+
+
+        return ResponseEntity
+                .badRequest()
+                .body(body);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> handleJsonErrors(
+            HttpMessageNotReadableException ex
+    ) {
+
+        Map<String, Object> body = new HashMap<>();
+
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Bad Request");
+
+        body.put(
+                "message",
+                "Valor inválido en la solicitud. Verifique que los campos enumerados tengan valores permitidos."
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(body);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

@@ -1,5 +1,7 @@
 package com.parea.controllers.dto;
 
+import com.parea.entities.Categoria;
+import com.parea.entities.Modalidad;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +23,7 @@ public class CrearEventoRequest {
     private String descripcion;
 
     @NotBlank(message = "La modalidad es obligatoria")
-    private String modalidad;
+    private Modalidad modalidad;
 
     @NotNull(message = "La fecha/hora de inicio es obligatoria")
     private LocalDateTime fhInicio;
@@ -31,6 +33,9 @@ public class CrearEventoRequest {
 
     @NotNull(message = "Debe indicar si el evento es gratuito")
     private Boolean esGratuito;
+
+    @NotNull(message = "La categoría es obligatoria")
+    private Categoria categoria;
 
     private BigDecimal precio;
 

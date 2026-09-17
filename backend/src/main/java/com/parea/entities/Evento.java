@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import com.parea.entities.Modalidad;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -29,8 +31,9 @@ public class Evento {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String modalidad;
+    private Modalidad modalidad;
 
     @Column(nullable = false)
     private LocalDateTime fhInicio;
