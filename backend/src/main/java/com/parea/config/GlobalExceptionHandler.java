@@ -95,6 +95,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleJsonErrors(
             HttpMessageNotReadableException ex
     ) {
+        ex.printStackTrace(); // TEMPORAL — para debuggear, sacar después
 
         Map<String, Object> body = new HashMap<>();
 

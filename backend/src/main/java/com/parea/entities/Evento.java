@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.Set;
 import java.util.HashSet;
 
-import com.parea.entities.Modalidad;
+//import com.parea.entities.Modalidad;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

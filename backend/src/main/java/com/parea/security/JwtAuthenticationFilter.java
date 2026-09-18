@@ -26,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    // JwtAuthenticationFilter.java
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -43,39 +44,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
 
-            System.out.println("userEmail: " + userEmail);
-
-            if (userEmail != null &&
-                    SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
-
-                    System.out.println("JWT válido");
-                    System.out.println("Authorities: " + userDetails.getAuthorities());
-
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
                             userDetails.getAuthorities());
-
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource()
-                                    .buildDetails(request));
-
-                    SecurityContextHolder.getContext()
-                            .setAuthentication(authToken);
-                    System.out.println(
-                            "Authentication: " +
-                                    SecurityContextHolder.getContext().getAuthentication());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-
-        } catch (JwtException | UsernameNotFoundException e) {
-
-            System.out.println("JWT inválido: " + e.getMessage());
-
+        } catch (Exception e) {
+            // Token inválido, expirado, corrupto, o usuario ya no existe.
+            // No autenticamos y seguimos — Spring Security se encarga
+            // de devolver 401 más adelante en la cadena, para las rutas
+            // que lo requieran.
             SecurityContextHolder.clearContext();
         }
 

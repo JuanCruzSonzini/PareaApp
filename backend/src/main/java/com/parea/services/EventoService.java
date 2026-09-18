@@ -27,6 +27,9 @@ public class EventoService {
     @Transactional
     public EventoResponse crearEvento(CrearEventoRequest request, Usuario creador) {
 
+        System.out.println("ENTRO A CREAR EVENTO");
+        System.out.println("Request: " + request);
+        System.out.println("Creador: " + creador.getEmail());
         if (request.getFhFin().isBefore(request.getFhInicio())) {
             throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la de inicio");
         }
@@ -52,6 +55,8 @@ public class EventoService {
                 .usuario(creador)
                 .build();
 
+        System.out.println("EVENTO CREADO EN MEMORIA");
+
         Evento guardado = eventoRepository.save(evento);
         System.out.println("EVENTO GUARDADO: " + guardado.getIdEvento());
 
@@ -71,7 +76,6 @@ public class EventoService {
 
     ) {
 
-
         Specification<Evento> spec = Specification
                 .where(EventoSpecifications.activo())
                 .and(EventoSpecifications.noFinalizado())
@@ -83,9 +87,8 @@ public class EventoService {
                 .and(EventoSpecifications.desde(desde))
                 .and(EventoSpecifications.hasta(hasta));
 
-
         return eventoRepository.findAll(spec, pageable)
                 .map(EventoResponse::from);
     }
 
-}   
+}

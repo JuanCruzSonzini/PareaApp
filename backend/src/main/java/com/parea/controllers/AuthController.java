@@ -31,4 +31,13 @@ public class AuthController {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        // Con JWT stateless no hay nada que invalidar del lado del servidor.
+        // El cliente es responsable de descartar el token tras esta llamada.
+        // Este endpoint existe para mantener un contrato de API claro
+        // y dejar lugar a una blacklist de tokens si en el futuro hiciera falta.
+        return ResponseEntity.noContent().build();
+    }
 }

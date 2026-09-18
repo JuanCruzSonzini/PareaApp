@@ -1,6 +1,6 @@
 package com.parea.controllers.dto;
 import com.parea.entities.Rol;
-import jakarta.validation.constraints.NotNull;
+//import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
