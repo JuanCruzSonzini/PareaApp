@@ -14,6 +14,7 @@ import com.parea.repositories.EventoSpecifications;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import com.parea.controllers.dto.EventoCardResponse;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class EventoService {
         return EventoResponse.from(guardado);
     }
 
-    public Page<EventoResponse> buscarEventos(
+    public Page<EventoCardResponse> buscarEventos(
 
             String texto,
             Set<Categoria> categorias,
@@ -85,7 +86,7 @@ public class EventoService {
 
 
         return eventoRepository.findAll(spec, pageable)
-                .map(EventoResponse::from);
+                .map(EventoCardResponse::from);
     }
 
 }   
