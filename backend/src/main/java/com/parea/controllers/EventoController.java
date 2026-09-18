@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/eventos")
@@ -46,7 +47,7 @@ public class EventoController {
             // búsqueda general de la pantalla inicial
             @RequestParam(required = false) String texto,
 
-            @RequestParam(required = false) Categoria categoria,
+            @RequestParam(required = false) Set<Categoria> categorias,
 
             @RequestParam(required = false) Modalidad modalidad,
 
@@ -68,7 +69,7 @@ public class EventoController {
 
         return eventoService.buscarEventos(
                 texto,
-                categoria,
+                categorias,
                 modalidad,
                 esGratuito,
                 requiereInscripcion,

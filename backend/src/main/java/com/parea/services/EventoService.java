@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class EventoService {
                 .titulo(request.getTitulo())
                 .descripcion(request.getDescripcion())
                 .modalidad(request.getModalidad())
-                .categoria(request.getCategoria())
+                .categorias(request.getCategorias())
                 .fhInicio(request.getFhInicio())
                 .fhFin(request.getFhFin())
                 .esGratuito(request.getEsGratuito())
@@ -52,6 +53,7 @@ public class EventoService {
                 .build();
 
         Evento guardado = eventoRepository.save(evento);
+        System.out.println("EVENTO GUARDADO: " + guardado.getIdEvento());
 
         return EventoResponse.from(guardado);
     }
@@ -59,7 +61,7 @@ public class EventoService {
     public Page<EventoResponse> buscarEventos(
 
             String texto,
-            Categoria categoria,
+            Set<Categoria> categorias,
             Modalidad modalidad,
             Boolean esGratuito,
             Boolean requiereInscripcion,
@@ -72,8 +74,9 @@ public class EventoService {
 
         Specification<Evento> spec = Specification
                 .where(EventoSpecifications.activo())
+                .and(EventoSpecifications.noFinalizado())
                 .and(EventoSpecifications.textoContiene(texto))
-                .and(EventoSpecifications.categoriaEs(categoria))
+                .and(EventoSpecifications.categoriasTieneTodas(categorias))
                 .and(EventoSpecifications.modalidadEs(modalidad))
                 .and(EventoSpecifications.esGratuitoEs(esGratuito))
                 .and(EventoSpecifications.requiereInscripcionEs(requiereInscripcion))

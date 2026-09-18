@@ -6,6 +6,7 @@ import com.parea.entities.Modalidad;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class EventoSpecifications {
 
@@ -48,12 +49,25 @@ public class EventoSpecifications {
 
 
 
-    public static Specification<Evento> categoriaEs(Categoria categoria) {
+    public static Specification<Evento> categoriasTieneTodas(Set<Categoria> categorias) {
 
-        return (root, query, cb) ->
-                categoria == null ? null :
-                        cb.equal(root.get("categoria"), categoria);
+        return (root, query, cb) -> {
 
+            if (categorias == null || categorias.isEmpty()) {
+                return null;
+            }
+
+            var predicates = categorias.stream()
+                    .map(categoria ->
+                            cb.isMember(
+                                    categoria,
+                                    root.get("categorias")
+                            )
+                    )
+                    .toArray(jakarta.persistence.criteria.Predicate[]::new);
+
+            return cb.and(predicates);
+        };
     }
 
 
@@ -110,6 +124,15 @@ public class EventoSpecifications {
                                 hasta
                         );
 
+    }
+
+
+    public static Specification<Evento> noFinalizado() {
+        return (root, query, cb) ->
+                cb.greaterThanOrEqualTo(
+                        root.get("fhFin"),
+                        LocalDateTime.now()
+                );
     }
 
 }

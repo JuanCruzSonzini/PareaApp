@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.parea.entities.Modalidad;
 
@@ -64,9 +66,15 @@ public class Evento {
 
     private LocalDateTime fechaVerificacion;
 
+    @ElementCollection(targetClass = Categoria.class)
+    @CollectionTable(
+            name = "evento_categorias",
+            joinColumns = @JoinColumn(name = "evento_id")
+    )
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Categoria categoria;
+    @Column(name = "categoria")
+    @Builder.Default
+    private Set<Categoria> categorias = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)

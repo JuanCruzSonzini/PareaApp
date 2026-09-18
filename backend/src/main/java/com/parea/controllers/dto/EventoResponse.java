@@ -2,6 +2,7 @@ package com.parea.controllers.dto;
 
 import com.parea.entities.Evento;
 import com.parea.entities.Categoria;
+import com.parea.entities.Modalidad;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Builder
@@ -19,8 +21,8 @@ public class EventoResponse {
     private Long idEvento;
     private String titulo;
     private String descripcion;
-    private String modalidad;
-    private Categoria categoria;
+    private Modalidad modalidad;
+    private Set<Categoria> categorias;
     private LocalDateTime fhInicio;
     private LocalDateTime fhFin;
     private boolean esGratuito;
@@ -38,7 +40,7 @@ public class EventoResponse {
                 .titulo(evento.getTitulo())
                 .descripcion(evento.getDescripcion())
                 .modalidad(evento.getModalidad())
-                .categoria(evento.getCategoria())
+                .categorias(evento.getCategorias())
                 .fhInicio(evento.getFhInicio())
                 .fhFin(evento.getFhFin())
                 .esGratuito(evento.isEsGratuito())

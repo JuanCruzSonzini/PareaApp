@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Builder
@@ -22,7 +23,7 @@ public class CrearEventoRequest {
 
     private String descripcion;
 
-    @NotBlank(message = "La modalidad es obligatoria")
+    @NotNull(message = "La modalidad es obligatoria")
     private Modalidad modalidad;
 
     @NotNull(message = "La fecha/hora de inicio es obligatoria")
@@ -34,8 +35,8 @@ public class CrearEventoRequest {
     @NotNull(message = "Debe indicar si el evento es gratuito")
     private Boolean esGratuito;
 
-    @NotNull(message = "La categoría es obligatoria")
-    private Categoria categoria;
+    @NotEmpty(message = "Debe tener al menos una categoría")
+    private Set<Categoria> categorias;
 
     private BigDecimal precio;
 

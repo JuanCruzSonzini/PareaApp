@@ -4,6 +4,6 @@ public enum Modalidad {
 
     PRESENCIAL,
     VIRTUAL,
-    HIBRIDA
+    HIBRIDO
 
 }
