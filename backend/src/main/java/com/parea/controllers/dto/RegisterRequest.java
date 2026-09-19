@@ -1,9 +1,7 @@
 package com.parea.controllers.dto;
 
-//import com.parea.entities.Rol;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-//import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +16,9 @@ public class RegisterRequest {
 
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+
+    @NotBlank(message = "El apellido es obligatorio")
+    private String apellido;
 
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "El formato de email no es válido")

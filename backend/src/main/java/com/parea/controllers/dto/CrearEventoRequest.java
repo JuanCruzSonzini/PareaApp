@@ -1,13 +1,12 @@
 package com.parea.controllers.dto;
 
-import com.parea.entities.Categoria;
 import com.parea.entities.Modalidad;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.HashSet;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -35,8 +34,9 @@ public class CrearEventoRequest {
     @NotNull(message = "Debe indicar si el evento es gratuito")
     private Boolean esGratuito;
 
-    @NotEmpty(message = "Debe tener al menos una categoría")
-    private Set<Categoria> categorias;
+    @Builder.Default
+    @NotEmpty(message = "Debe indicar al menos una categoría")
+    private Set<Long> categoriaIds  = new HashSet<>();
 
     private BigDecimal precio;
 

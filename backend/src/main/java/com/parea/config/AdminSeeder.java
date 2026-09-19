@@ -1,12 +1,14 @@
 package com.parea.config;
 
-import com.parea.entities.Rol;
+import com.parea.entities.RolConstants;
 import com.parea.entities.Usuario;
 import com.parea.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -20,9 +22,14 @@ public class AdminSeeder implements CommandLineRunner {
         if (!usuarioRepository.existsByEmail("admin@parea.com")) {
             Usuario admin = Usuario.builder()
                     .nombre("Admin")
+                    .apellido("Parea")
                     .email("admin@parea.com")
-                    .password(passwordEncoder.encode("CAMBIAR_ESTA_CLAVE"))
-                    .rol(Rol.ADMIN)
+                    .hashContrasena(passwordEncoder.encode("parea"))
+                    .rol(RolConstants.ADMIN)
+                    .emailConfirmado(true)
+                    .estadoCuenta("activo")
+                    .verificado(true)
+                    .fhAlta(LocalDateTime.now())
                     .build();
             usuarioRepository.save(admin);
         }

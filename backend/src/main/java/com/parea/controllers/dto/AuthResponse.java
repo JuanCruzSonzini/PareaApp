@@ -1,6 +1,4 @@
 package com.parea.controllers.dto;
-
-import com.parea.entities.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +14,5 @@ public class AuthResponse {
     private Long id;
     private String nombre;
     private String email;
-    private Rol rol;
+    private String rol;
 }

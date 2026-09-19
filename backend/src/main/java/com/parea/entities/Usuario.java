@@ -1,31 +1,18 @@
 package com.parea.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import java.util.ArrayList;
-import lombok.Builder.Default;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,28 +22,48 @@ public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, columnDefinition = "citext")
     private String email;
 
+    @Column(name = "hash_contrasena", nullable = false)
+    private String hashContrasena;
+
+    @Column(nullable = false, length = 80)
+    private String nombre;
+
+    @Column(nullable = false, length = 80)
+    private String apellido;
+
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+
+    private String telefono;
+
+    @Column(nullable = false, length = 20)
+    private String rol;
+
+    @Column(name = "email_confirmado", nullable = false)
+    private Boolean emailConfirmado;
+
+    @Column(name = "estado_cuenta", nullable = false)
+    private String estadoCuenta;
+
     @Column(nullable = false)
-    private String password;
+    private Boolean verificado;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Rol rol;
+    @Column(name = "fh_alta", nullable = false)
+    private LocalDateTime fhAlta;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = false)
-    @Default
-    private List<Evento> eventos = new ArrayList<>();
+    @Column(name = "fh_baja")
+    private LocalDateTime fhBaja;
 
+    // --- métodos de UserDetails ---
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + rol));
     }
 
     @Override
@@ -66,7 +73,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.hashContrasena;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !"suspendido".equals(estadoCuenta);
     }
 
     @Override
@@ -86,6 +93,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !"eliminado".equals(estadoCuenta);
     }
+
 }

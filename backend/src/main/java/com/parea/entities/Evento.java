@@ -1,21 +1,15 @@
 package com.parea.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import java.util.Set;
-import java.util.HashSet;
-
-//import com.parea.entities.Modalidad;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "eventos")
+@Table(name = "evento")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,59 +19,60 @@ public class Evento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_evento")
     private Long idEvento;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_organizador", nullable = false)
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_estado_evento", nullable = false)
+    private EstadoEvento estadoEvento;
+
+    @Column(nullable = false, length = 150)
     private String titulo;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     private Modalidad modalidad;
 
-    @Column(nullable = false)
+    @Column(name = "fh_inicio", nullable = false)
     private LocalDateTime fhInicio;
 
-    @Column(nullable = false)
+    @Column(name = "fh_fin")
     private LocalDateTime fhFin;
 
-    @Column(nullable = false)
-    private boolean esGratuito;
+    @Column(name = "es_gratuito", nullable = false)
+    private Boolean esGratuito;
 
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal precio;
 
-    @Column(nullable = false)
+    @Column(name = "requiere_inscripcion", nullable = false)
     private Boolean requiereInscripcion;
 
+    @Column(name = "cupo_max")
     private Integer cupoMax;
 
     @Column(nullable = false)
     private Boolean verificado;
 
-    @Column(nullable = false)
-    private String estadoVerificacion;
-
-    @Column(nullable = false)
+    @Column(name = "fh_alta", nullable = false)
     private LocalDateTime fhAlta;
 
+    @Column(name = "fh_baja")
     private LocalDateTime fhBaja;
 
-    private LocalDateTime fechaVerificacion;
-
-    @ElementCollection(targetClass = Categoria.class)
-    @CollectionTable(
-            name = "evento_categorias",
-            joinColumns = @JoinColumn(name = "evento_id")
+    @ManyToMany
+    @JoinTable(
+        name = "evento_categoria",
+        joinColumns = @JoinColumn(name = "id_evento"),
+        inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
-    @Enumerated(EnumType.STRING)
-    @Column(name = "categoria")
     @Builder.Default
     private Set<Categoria> categorias = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
 }
-

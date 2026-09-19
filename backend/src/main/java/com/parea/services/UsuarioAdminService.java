@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.parea.entities.RolConstants;
 
 import java.util.List;
 
@@ -28,9 +29,15 @@ public class UsuarioAdminService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con id: " + id));
 
-        usuario.setRol(request.getRol());
+        String nuevoRol = request.getRol();
+        if (!nuevoRol.equals(RolConstants.USUARIO) && !nuevoRol.equals(RolConstants.ADMIN)) {
+            throw new IllegalArgumentException("Rol inválido: " + nuevoRol);
+        }
+
+        usuario.setRol(nuevoRol);
         Usuario actualizado = usuarioRepository.save(usuario);
 
         return UsuarioResponse.from(actualizado);
     }
+
 }

@@ -25,12 +25,12 @@ public class EventoResponse {
     private Set<Categoria> categorias;
     private LocalDateTime fhInicio;
     private LocalDateTime fhFin;
-    private boolean esGratuito;
+    private Boolean esGratuito;
     private BigDecimal precio;
     private Boolean requiereInscripcion;
     private Integer cupoMax;
     private Boolean verificado;
-    private String estadoVerificacion;
+    private String estadoEvento;
     private LocalDateTime fhAlta;
     private String nombreCreador;
 
@@ -43,12 +43,12 @@ public class EventoResponse {
                 .categorias(evento.getCategorias())
                 .fhInicio(evento.getFhInicio())
                 .fhFin(evento.getFhFin())
-                .esGratuito(evento.isEsGratuito())
+                .esGratuito(evento.getEsGratuito())
                 .precio(evento.getPrecio())
                 .requiereInscripcion(evento.getRequiereInscripcion())
                 .cupoMax(evento.getCupoMax())
                 .verificado(evento.getVerificado())
-                .estadoVerificacion(evento.getEstadoVerificacion())
+                .estadoEvento(evento.getEstadoEvento().getNombre())
                 .fhAlta(evento.getFhAlta())
                 .nombreCreador(evento.getUsuario().getNombre())
                 .build();

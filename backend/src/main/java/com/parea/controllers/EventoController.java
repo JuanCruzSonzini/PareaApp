@@ -2,6 +2,7 @@ package com.parea.controllers;
 
 import com.parea.controllers.dto.CrearEventoRequest;
 import com.parea.controllers.dto.EventoResponse;
+import com.parea.controllers.dto.EventoCardResponse;
 import com.parea.entities.Categoria;
 import com.parea.entities.Modalidad;
 import com.parea.entities.Usuario;
@@ -42,7 +43,7 @@ public class EventoController {
 
 
     @GetMapping
-    public Page<EventoResponse> buscarEventos(
+    public Page<EventoCardResponse> buscarEventos(
 
             // búsqueda general de la pantalla inicial
             @RequestParam(required = false) String texto,

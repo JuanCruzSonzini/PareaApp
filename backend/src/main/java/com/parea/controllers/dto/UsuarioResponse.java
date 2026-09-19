@@ -1,6 +1,4 @@
 package com.parea.controllers.dto;
-import com.parea.entities.Rol;
-//import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +14,7 @@ public class UsuarioResponse {
     private Long id;
     private String nombre;
     private String email;
-    private Rol rol;
+    private String rol;
 
     public static UsuarioResponse from(com.parea.entities.Usuario usuario){
 
